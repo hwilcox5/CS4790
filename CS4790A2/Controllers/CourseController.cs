@@ -35,13 +35,13 @@ namespace CS4790A2.Controllers
             return View(course);
         }
 
-        public ActionResult CourseAndSectionsDetails(int? id)
+        public ActionResult CSDetails(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = Repository.getCourse(id); //getCourseAndSections
+            CourseAndSections course = Repository.getCourseAndSections(id); //getCourseAndSections
             if (course == null)
             {
                 return HttpNotFound();
@@ -64,8 +64,10 @@ namespace CS4790A2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.courses.Add(course);
-                db.SaveChanges();
+
+                //db.courses.Add(course);
+                //db.SaveChanges();
+                Repository.addCourse(course);
                 return RedirectToAction("Index");
             }
 
@@ -79,7 +81,7 @@ namespace CS4790A2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.courses.Find(id);
+            Course course = Repository.getCourse(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -96,8 +98,9 @@ namespace CS4790A2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(course).State = EntityState.Modified;
+                //db.SaveChanges();
+                Repository.modifyCourseState(course);
                 return RedirectToAction("Index");
             }
             return View(course);
@@ -110,7 +113,7 @@ namespace CS4790A2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.courses.Find(id);
+            Course course = Repository.getCourse(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -123,9 +126,10 @@ namespace CS4790A2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Course course = db.courses.Find(id);
-            db.courses.Remove(course);
-            db.SaveChanges();
+            Course course = Repository.getCourse(id);
+            //db.courses.Remove(course);
+            //db.SaveChanges();
+            Repository.removeCourse(course);
             return RedirectToAction("Index");
         }
 

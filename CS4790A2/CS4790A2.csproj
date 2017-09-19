@@ -227,6 +227,7 @@
     <Content Include="Views\Section\Details.cshtml" />
     <Content Include="Views\Section\Edit.cshtml" />
     <Content Include="Views\Section\Index.cshtml" />
+    <Content Include="Views\Course\CSDetails.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

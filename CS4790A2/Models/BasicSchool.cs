@@ -18,14 +18,8 @@ namespace CS4790A2.Models
         public static List<Course> getAllCourses()
         {
             BasicSchoolDbContext db = new BasicSchoolDbContext();
-            return db.courses.ToList();
-        }
-
-        // To make a list of all the sections
-        public static List<Section> getAllSections()
-        {
-            BasicSchoolDbContext db = new BasicSchoolDbContext();
-            return db.sections.ToList();
+            List<Course> course = db.courses.ToList();
+            return course;
         }
 
         /// <summary>
@@ -40,6 +34,28 @@ namespace CS4790A2.Models
             return course;
         }
 
+        public static void addCourse(Course course)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            db.courses.Add(course);
+            db.SaveChanges();
+        }
+
+        public static void modifyCourseState(Course course)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public static void deleteCourseComfirmed(Course course)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            db.Entry(course).State = EntityState.Deleted;
+            db.courses.Remove(course);
+            db.SaveChanges();
+        }
+
         /// <summary>
         /// Gets the section by its id
         /// </summary>
@@ -50,6 +66,49 @@ namespace CS4790A2.Models
             BasicSchoolDbContext db = new BasicSchoolDbContext();
             Section section = db.sections.Find(id);
             return section;
+        }
+
+        // To make a list of all the sections
+        public static List<Section> getAllSections()
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            List<Section> sections = db.sections.ToList();
+            return sections;
+        }
+
+        public static void addSection(Section section)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            db.sections.Add(section);
+            db.SaveChanges();
+        }
+
+        public static void modifySectionState(Section section)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            db.Entry(section).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public static void deleteSectionComfirmed(Section section)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            db.Entry(section).State = EntityState.Deleted;
+            db.sections.Remove(section);
+            db.SaveChanges();
+        }
+
+        public static CourseAndSections getCourseAndSections(int? id)
+        {
+            BasicSchoolDbContext db = new BasicSchoolDbContext();
+            CourseAndSections courseAndSections = new CourseAndSections();
+
+            courseAndSections.course = db.courses.Find(id);
+            var sections = db.sections.Where(s =>
+                s.courseNumber == courseAndSections.course.courseNumber);
+
+            courseAndSections.sections = sections.ToList();
+            return courseAndSections;
         }
     }
 
@@ -85,7 +144,7 @@ namespace CS4790A2.Models
         public string courseNumber { get; set; }
         [DisplayName("Section Days")]
         public string sectionDays { get; set; }
-        [DisplayName("Section Time")]
+        [DisplayName("Section Datetime")]
         public DateTime sectionTime { get; set; }
     }
 

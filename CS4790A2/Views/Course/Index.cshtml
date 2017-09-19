@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<CS4790A2.Models.Course>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Course";
 }
 
-<h2>Index</h2>
+<h2>Course</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Course", "Create")
 </p>
 <table class="table">
     <tr>
@@ -43,7 +43,8 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
             @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Delete", "Delete", new { id = item.id }) |
+            @Html.ActionLink("Course and Sections Details", "CSDetails", new { id = item.id }, null)
         </td>
     </tr>
 }
